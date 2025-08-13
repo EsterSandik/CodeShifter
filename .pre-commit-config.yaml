@@ -1,0 +1,83 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: name-tests-test
+        exclude: (conftest\.py|stub\.py)
+      - id: trailing-whitespace
+        args:
+          - --markdown-linebreak-ext=md
+
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        name: Black formatter
+        language_version: python3
+        files: ^ai-services/
+
+  - repo: local
+    hooks:
+      - id: yaml-file-extension
+        name: Check that YAML files have *.yaml extension
+        entry: YAML filenames must have .yaml extension
+        language: fail
+        files: .yml$
+
+      - id: check-netfree-installation
+        name: Check for netfree installation in Dockerfiles
+        entry: 'bash -c "if grep -n \"https://netfree.link/dl/unix-ca.sh /home/netfree-unix-ca.sh\" -R --include=\"Dockerfile\" .; then echo \"Remove netfree installation\" && exit 1 ; fi"'
+        language: system
+        types: [file]
+        files: Dockerfile
+
+      - id: check-trusted-host
+        name: Check for trusted-host in Dockerfiles
+        entry: 'bash -c "if grep -n \"pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org\" -R --include=\"Dockerfile\" .; then echo \"Remove --trusted-host\" && exit 1 ; fi"'
+        language: system
+        types: [file]
+        files: Dockerfile
+
+      - id: eslint-client
+        name: Run ESLint for client/
+        language: node
+        entry: ./eslint.sh
+        types: [javascript]
+        files: ^client/.*\.[jt]sx?$
+        additional_dependencies:
+          - eslint@^9.22.0
+          - globals@15.15.0
+          - '@eslint/js@9.21.0'
+          - eslint-plugin-react-hooks@5.1.0
+          - eslint-plugin-react-refresh@0.4.19
+          - typescript-eslint@8.24.1
+        args: ["--flag", "unstable_config_lookup_from_file"]
+
+      - id: eslint-server
+        name: Run ESLint for server/
+        language: node
+        entry: ./eslint.sh
+        types: [javascript]
+        files: ^server/.*\.[jt]sx?$
+        additional_dependencies:
+          - eslint@^9.22.0
+          - globals@15.15.0
+          - '@eslint/js@9.21.0'
+          - eslint-plugin-react-hooks@5.1.0
+          - eslint-plugin-react-refresh@0.4.19
+          - typescript-eslint@8.24.1
+        args: ["--flag", "unstable_config_lookup_from_file"]
+
+      - id: prettier
+        name: Run Prettier formatter
+        language: node
+        entry: prettier --write
+        types: [javascript]
+        files: ^(client|server)/.*\.[jt]sx?$
+        additional_dependencies:
+          - prettier@3.2.5

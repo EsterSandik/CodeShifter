@@ -1,0 +1,10 @@
+# Environment files
+.env
+
+# Python-related files
+__pycache__
+**/claimix_ai.egg-info
+
+# Build artifacts
+**/build
+**/var

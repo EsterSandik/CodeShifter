@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "code-shifter"
+version = "1.0.0"
+requires-python = ">=3.12"
+dependencies = [
+  "Flask==3.1.1",
+  "python-dotenv==1.1.1",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest==8.3.4",
+  "pytest_mock==3.14",
+]
+lint = [
+  "black==25.1.0",
+  "ruff==0.9.6",
+  "pre-commit==4.1"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 88
+lint.select = ["E", "F", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["services"]
+combine-as-imports = true
+lines-after-imports = 2
+lines-between-types = 1
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+order-by-type = true

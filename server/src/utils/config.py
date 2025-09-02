@@ -30,3 +30,8 @@ class LogsParams:
 
 class Paths:
     LOGS_PATH = os.getenv("LOGS_PATH")
+
+
+class Route:
+    HOST = os.getenv("HOST")
+    PORT = os.getenv("PORT")

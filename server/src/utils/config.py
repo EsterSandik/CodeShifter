@@ -8,6 +8,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+class AppConfig:
+    BASE_DIR = "src"
+    DRY_RUN = True
+
+
 class LogsParams:
     AT_TIME = time(7, 0)
     BACKUPCOUNT = 7
@@ -25,3 +30,8 @@ class LogsParams:
 
 class Paths:
     LOGS_PATH = os.getenv("LOGS_PATH")
+
+
+class Route:
+    HOST = os.getenv("HOST")
+    PORT = os.getenv("PORT")

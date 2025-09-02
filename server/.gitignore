@@ -3,7 +3,7 @@
 
 # Python-related files
 __pycache__
-**/claimix_ai.egg-info
+**/code_shifter.egg-info
 
 # Build artifacts
 **/build
